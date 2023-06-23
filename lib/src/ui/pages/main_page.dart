@@ -14,7 +14,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   Widget homeBody = HomePage();
-  String PageTitle = 'CET App';
+  String PageTitle = 'SMARGE';
 
   void drawerHandler(Widget page, String title) {
     setState(() {
@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Image.asset(kLogo),
+          child: Image.asset(kLogoWhite),
         ),
         const SizedBox(width: 8),
       ],
