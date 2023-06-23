@@ -1,7 +1,7 @@
-import 'package:app_jtak_delivery/src/core/controllers/order_provider.dart';
-import 'package:app_jtak_delivery/src/core/models/notifications_payload_model.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/core/controllers/cet_data_provider.dart';
+import 'package:app_cet/src/core/models/notifications_payload_model.dart';
+import 'package:app_cet/src/core/services/locator.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:flutter/material.dart';
 
 class NotificationRoutesService {
@@ -32,7 +32,7 @@ class NotificationRoutesService {
     }
     switch (type) {
       case 'NewDeliveryOrder':
-        locator<OrderProvider>().refreshData();
+        locator<CetDataProvider>().refreshData();
         break;
       default:
     }

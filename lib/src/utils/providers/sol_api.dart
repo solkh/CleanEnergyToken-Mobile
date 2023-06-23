@@ -12,11 +12,11 @@ import 'internet_provider.dart';
 import 'sol_api_response.dart';
 
 class SolApi {
-  static const String baseURL = 'https://api.jtak.app';
+  static const String baseURL = 'https://cet.kuarkz.com';
   static const String imagePreviewUrl = baseURL + '/api/v1/services/previewimage/';
   static const String downloadUrl = baseURL + '/api/services/Download/';
-  static const String apiVersionPrefex = '/api/v1';
-  static const String apiModelPrefex = '/delivery';
+  static const String apiVersionPrefex = '';
+  static const String apiModelPrefex = '';
   static const String apiPrefex = apiVersionPrefex + apiModelPrefex;
 
   late InternetProvider internetProvider;
@@ -48,7 +48,7 @@ class SolApi {
       final httpResponse = await internetProvider.getRequest(Uri.parse(url), headers: headers ?? getHeaders());
       return _responseHandel(httpResponse, url: url);
     } catch (err) {
-      rethrow;
+      //rethrow;
     }
   }
 

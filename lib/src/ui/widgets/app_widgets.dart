@@ -10,7 +10,7 @@ class AppBarWidget {
     return AppBar(
       title: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Image.asset(kLogo2),
+        child: Image.asset(kLogo),
       ),
       centerTitle: true,
       leading: leading,

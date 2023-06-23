@@ -1,4 +1,4 @@
-import 'package:app_jtak_delivery/src/core/services/app_global_initializer.dart';
+import 'package:app_cet/src/core/services/app_global_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

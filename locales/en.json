@@ -48,16 +48,16 @@
     "orderDetailsStatusCustomerPending": "customerPending",
     "orderDetailsStatusCustomerCanceled": "customerCanceled",
     "accept": "accept",
-    "privecyAndUsage": "privecy And Usage"
+    "privecyAndUsage": "Privacy And Usage"
   },
   "formAndAction": {
     "logIn": "Login",
-    "signup": "signup",
-    "username": "username",
-    "email": "email",
-    "password": "password",
-    "phone": "phone",
-    "logout": "logout",
+    "signup": "Signup",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "phone": "Phone",
+    "logout": "Logout",
     "changePassword": "Change Password",
     "save": "save",
     "oldPassword": "old password",

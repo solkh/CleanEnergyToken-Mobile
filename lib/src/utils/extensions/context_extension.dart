@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:app_jtak_delivery/main.dart';
+import 'package:app_cet/main.dart';
 import 'package:flutter/material.dart';
 import '../custom_widgets/messages.dart';
 

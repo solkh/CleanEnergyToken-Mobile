@@ -1,4 +1,4 @@
-import 'package:app_jtak_delivery/src/ui/widgets/app_widgets.dart';
+import 'package:app_cet/src/ui/widgets/app_widgets.dart';
 import 'package:flutter/material.dart';
 
 import '../../config/themes/app_theme.dart';

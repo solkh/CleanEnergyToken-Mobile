@@ -1,21 +1,7 @@
-import 'package:app_jtak_delivery/src/config/constants/app_constant.dart';
-import 'package:app_jtak_delivery/src/config/themes/colors.dart';
-import 'package:app_jtak_delivery/src/core/controllers/user_provider.dart';
-import 'package:app_jtak_delivery/src/core/models/phone_number_model.dart';
-import 'package:app_jtak_delivery/src/core/services/authentication_service.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/ui/pages/account/phone_code_page.dart';
-import 'package:app_jtak_delivery/src/utils/custom_widgets/init_widget.dart';
-import 'package:app_jtak_delivery/src/utils/custom_widgets/phone_widget.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
+import 'package:app_cet/src/core/controllers/user_provider.dart';
+import 'package:app_cet/src/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
-import '../../../../main_imports.dart';
-import '../../../config/themes/app_theme.dart';
-import '../../../utils/custom_widgets/base_view.dart';
-import '../../../utils/custom_widgets/button.dart';
-import '../../../utils/custom_widgets/loading.dart';
-import '../../../utils/custom_widgets/messages.dart';
-import '../../../utils/utilities/global_var.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,119 +11,93 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  PhoneNumberModel _phoneNumber = PhoneNumberModel();
-  bool _isPhoneNumberValid = true;
   late UserProvider userProvider;
+  late List<Widget> res;
+  late List<TextEditingController> ctrls;
 
   @override
   void initState() {
-    if (kDebugMode) {
-      _phoneNumber = PhoneNumberModel(
-        phoneNumber: '+905555555553',
-        dialCode: kCountryPhoneCodeDefualt,
-        isoCode: kCountriesCode[kCountryPhoneCodeDefualt],
-      );
-    }
+    userProvider = UserProvider();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(str.formAndAction.logIn)),
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: BaseView<UserProvider>(
-          modelProvider: UserProvider(),
-          builder: (context, modelNotifier) {
-            userProvider = modelNotifier;
-            return FullScreenLoading(
-              inAsyncCall: userProvider.isBusy,
-              child: ListView(
-                padding: AppTheme.standardPadding,
-                children: [
-                  context.addHeight(32),
-                  _infoWidget(),
-                  _phoneNumberForm(),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _infoWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'تسجيل الدخول من خلال رقمك الهاتف',
-          style: context.textTheme.displaySmall!.copyWith(color: kAccentColor, fontWeight: FontWeight.bold),
-        ),
-        context.addHeight(8),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.info, size: 20, color: Colors.grey.shade700),
-            context.addWidth(8),
-            Expanded(
-              child: Text(
-                'يتم بعدها ارسال كود تسجله في الصفحة التالي',
-                style: context.textTheme.bodyLarge,
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _phoneNumberForm() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(end: 16, top: 45),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^ LoginPage.build');
+    res = new List.empty(growable: true);
+    ctrls = new List.empty(growable: true);
+    for (int i = 0; i < 12; i++) {
+      var ctrl = TextEditingController();
+      ctrls.add(ctrl);
+      //const label = 'Word' + (i+1).toString();
+      res.add(Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          PhoneWidget(
-            initValue: _phoneNumber,
-            onChanged: (phone) => _phoneNumber = phone,
-            onInputValidated: (isValid) => _isPhoneNumberValid = isValid,
+          SizedBox(
+            width: 40,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text((i + 1).toString() + ':'),
+            ),
           ),
-          context.addHeight(64),
-          ButtonWidget(
-            text: str.formAndAction.logIn,
-            onPressed: registerOrSignInByPhoneNumber,
-            width: double.infinity,
-            color: kAccentColor,
+          SizedBox(
+            width: 60,
+            child: TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Word',
+              ),
+              controller: ctrl,
+              //onTap: () => param1Controller.selection = TextSelection(
+              //    baseOffset: 0,
+              //    extentOffset: param1Controller.value.text.length)
+            ),
           ),
+        ],
+      ));
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sign-in to your account'),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              children: res,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                    onPressed: () {
+                      // TODO: Sign-in
+                      var mnemonic = '';
+                      for (int i = 0; i < ctrls.length; i++) {
+                        if (i > 0) mnemonic += ' ';
+                        mnemonic += ctrls[i].text.trim();
+                      }
+                      userProvider.loginByMnemonic(mnemonic).then((value) => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage())));
+                      
+                    },
+                    child: const Text('Sign-in'))),
+          )
         ],
       ),
     );
   }
 
-  void registerOrSignInByPhoneNumber() async {
-    try {
-      if (_isPhoneNumberValid) {
-        await userProvider.registerOrSignInByPhoneNumber(_phoneNumber.phoneNumber!);
-        context.showSnakBar(str.msg.smsCodeSend);
-        var res = await context.navigateName(PhoneCodePage.routeName, data: _phoneNumber.toString());
-
-        if (res is bool && res) {
-          AuthenticationService authenticationService = locator<AuthenticationService>();
-          if (authenticationService.user!.role == null || authenticationService.user!.role != kDeliveryRole) {
-            showDialog(context: context, builder: (context) => CustomDialog(message: 'يرجى تسجيل الدخول كسائق'));
-            authenticationService.logOut();
-          } else {
-            InitWidget.restartApp(context);
-          }
-        }
-      } else {
-        setState(() {});
-      }
-    } catch (err) {
-      showDialog(context: context, builder: (context) => CustomDialog(message: err.toString()));
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    for (int i = 0; i < ctrls.length; i++) {
+      ctrls[i].dispose();
     }
+    super.dispose();
   }
 }

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_jtak_delivery/src/core/controllers/app_parameters_provider.dart';
-import 'package:app_jtak_delivery/src/core/models/user_model.dart';
+import 'package:app_cet/src/core/controllers/app_parameters_provider.dart';
+import 'package:app_cet/src/core/models/user_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +25,7 @@ class AuthenticationService extends BaseProvider {
     notifyListeners();
   }
 
-  bool isLogin() {
+  bool isLoggedIn() {
     return GlobalVar.checkString(getAccessToken);
   }
 
@@ -39,14 +39,44 @@ class AuthenticationService extends BaseProvider {
         "code": code,
         "scope": "offline_access profile roles phone email",
       };
-      Map<String, String> headers = _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
+      Map<String, String> headers =
+          _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
 
       debugPrint(headers.toString());
-      var data = await _api.postRequest('/connect/token', body, headers: headers, apiPrefex: '');
+      var data = await _api.postRequest('/connect/token', body,
+          headers: headers, apiPrefex: '');
       _authorizationModel = AuthorizationModel.fromJson(data);
       saveAuthorizationData();
       _api.accessToken = _authorizationModel?.accessToken;
       await loadUserData();
+    } catch (err) {
+      rethrow;
+    }
+  }
+
+  Future<UserModel?> loginByMnemonic(String mnemonic) async {
+    return await loginOrRegisterByMnemonic(mnemonic, 'username');
+  }
+
+  Future<UserModel?> loginOrRegisterByMnemonic(
+      String mnemonic, String username) async {
+    try {
+      Map<String, String> body = {
+        "grant_type": "password",
+        "username": username,
+        "password": mnemonic,
+        "scope": "offline_access profile roles",
+      };
+      Map<String, String> headers =
+          _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
+
+      debugPrint(headers.toString());
+      var data = await _api.postRequest('/connect/token', body,
+          headers: headers, apiPrefex: '');
+      _authorizationModel = AuthorizationModel.fromJson(data);
+      saveAuthorizationData();
+      _api.accessToken = _authorizationModel?.accessToken;
+      return await loadUserData();
     } catch (err) {
       rethrow;
     }
@@ -60,10 +90,12 @@ class AuthenticationService extends BaseProvider {
         "password": password,
         "scope": "offline_access profile roles phone email",
       };
-      Map<String, String> headers = _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
+      Map<String, String> headers =
+          _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
 
       debugPrint(headers.toString());
-      var data = await _api.postRequest('/connect/token', body, headers: headers, apiPrefex: '');
+      var data = await _api.postRequest('/connect/token', body,
+          headers: headers, apiPrefex: '');
       _authorizationModel = AuthorizationModel.fromJson(data);
       saveAuthorizationData();
       _api.accessToken = _authorizationModel?.accessToken;
@@ -72,11 +104,13 @@ class AuthenticationService extends BaseProvider {
     }
   }
 
-  Future loadUserData() async {
-    if (isLogin()) {
+  Future<UserModel?> loadUserData() async {
+    if (isLoggedIn()) {
       var data = await _api.getRequest("/connect/userinfo", apiPrefex: '');
       user = data != null ? UserModel.fromMap(data) : null;
+      return user;
     }
+    return null;
   }
 
   Future<void> getAuthorizationData() async {
@@ -84,7 +118,9 @@ class AuthenticationService extends BaseProvider {
       if (_authorizationModel == null) {
         final prefs = await SharedPreferences.getInstance();
         if (prefs.containsKey(authorizationKey)) {
-          final authorizationData = json.decode(prefs.getString(authorizationKey)!) as Map<String, dynamic>;
+          final authorizationData =
+              json.decode(prefs.getString(authorizationKey)!)
+                  as Map<String, dynamic>;
           _authorizationModel = AuthorizationModel.fromJson(authorizationData);
           _api.accessToken = _authorizationModel?.accessToken;
         }
@@ -96,27 +132,33 @@ class AuthenticationService extends BaseProvider {
 
   void saveAuthorizationData() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString(authorizationKey, json.encode(_authorizationModel!.toJson()));
+    prefs.setString(
+        authorizationKey, json.encode(_authorizationModel!.toJson()));
   }
 
   Future<void> checkAuthorizationToken() async {
     // log('/////////////////////////////////////////////////////////////// check Authorization ');
     await getAuthorizationData();
     try {
-      if (_authorizationModel != null && _authorizationModel!.accessToken!.isNotEmpty) {
-        Duration diff = DateTime.parse(_authorizationModel!.expiresIn!).difference(DateTime.now());
+      if (_authorizationModel != null &&
+          _authorizationModel!.accessToken!.isNotEmpty) {
+        Duration diff = DateTime.parse(_authorizationModel!.expiresIn!)
+            .difference(DateTime.now());
         if (diff.isNegative || diff.inMinutes < 10) {
           if (kDebugMode) {
-            debugPrint('/////////////////////////////////////////////////////////////// Request refresh_token :$diff ');
+            debugPrint(
+                '/////////////////////////////////////////////////////////////// Request refresh_token :$diff ');
           }
           Map<String, String> body = {
             "grant_type": "refresh_token",
             "refresh_token": _authorizationModel!.refreshToken!,
             "scope": "offline_access profile roles phone email",
           };
-          Map<String, String> headers = _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
+          Map<String, String> headers =
+              _api.getHeaders(contentType: 'application/x-www-form-urlencoded');
 
-          var data = await _api.postRequest('/connect/token', body, headers: headers, apiPrefex: '');
+          var data = await _api.postRequest('/connect/token', body,
+              headers: headers, apiPrefex: '');
           //Request refresh_token response comes without refreshToken
           _authorizationModel = AuthorizationModel.fromJson(data);
           _api.accessToken = _authorizationModel?.accessToken!;

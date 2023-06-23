@@ -1,14 +1,13 @@
-import 'package:app_jtak_delivery/src/config/constants/constants.dart';
-import 'package:app_jtak_delivery/src/config/themes/colors.dart';
-import 'package:app_jtak_delivery/src/core/services/authentication_service.dart';
-import 'package:app_jtak_delivery/src/ui/pages/account/profile_page.dart';
-import 'package:app_jtak_delivery/src/ui/pages/order/orders_page.dart';
-import 'package:app_jtak_delivery/src/ui/pages/pages/app_page.dart';
-import 'package:app_jtak_delivery/src/ui/pages/transaction/transaction_page.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/config/constants/constants.dart';
+import 'package:app_cet/src/config/themes/colors.dart';
+import 'package:app_cet/src/core/services/authentication_service.dart';
+import 'package:app_cet/src/ui/pages/account/profile_page.dart';
+import 'package:app_cet/src/ui/pages/home_page.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../main_imports.dart';
+import '../pages/app_page.dart';
 
 class HomeDrawer extends StatefulWidget {
   final Function drawerHandler;
@@ -32,16 +31,10 @@ class _HomeDrawerState extends State<HomeDrawer> {
             _divider(height: 4),
             context.addHeight(16),
             _singleItem(
-                text: 'صفحة الطلبات',
+                text: 'Home',
                 onTap: () {
                   Navigator.pop(context);
-                  widget.drawerHandler(OrdersPage(), 'صفحة الطلبات');
-                }),
-            _singleItem(
-                text: 'اخر الحركات',
-                onTap: () {
-                  Navigator.pop(context);
-                  widget.drawerHandler(TransactionPage(), 'اخر التحركات');
+                  widget.drawerHandler(HomePage(), 'Home');
                 }),
             _singleItem(text: str.app.privecyAndUsage, onTap: () => appPageNavigation(context, 'TermsAndConditions', str.app.privecyAndUsage)),
             _singleItem(text: str.main.about, onTap: () => appPageNavigation(context, 'About', str.main.about)),

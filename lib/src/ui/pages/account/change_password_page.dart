@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app_jtak_delivery/src/core/controllers/user_provider.dart';
+import 'package:app_cet/src/core/controllers/user_provider.dart';
 import '../../../config/themes/app_theme.dart';
 import '../../../utils/custom_widgets/base_view.dart';
 import '../../../utils/custom_widgets/button.dart';

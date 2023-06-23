@@ -1,12 +1,8 @@
 import 'dart:developer';
-
-import 'package:app_jtak_delivery/src/core/models/order_model.dart';
-import 'package:app_jtak_delivery/src/ui/pages/account/phone_code_page.dart';
-import 'package:app_jtak_delivery/src/ui/pages/order/order_details_page.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/ui/pages/account/phone_code_page.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../main.dart';
 import '../../../src/utils/custom_widgets/image_slider_page.dart';
 import '../../../src/utils/custom_widgets/image_view_page.dart';
@@ -23,10 +19,6 @@ class RouteGenerator {
       case PhoneCodePage.routeName:
         if (args is String && GlobalVar.checkString(args)) return CupertinoPageRoute(builder: (context) => PhoneCodePage(args));
         return _errorRoute();
-
-      ////////////////{ order routes } ////////////////
-      case OrderDetailsPage.routeName:
-        return CupertinoPageRoute(builder: (context) => OrderDetailsPage(args as OrderModel));
 
       ////////////////{ image Route } ////////////////
       case ImageViewPage.routeName:

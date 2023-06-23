@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
-import 'package:app_jtak_delivery/src/core/enums/viewstate.dart';
+import 'package:app_cet/src/core/enums/viewstate.dart';
 
 class BaseProvider<T> extends ChangeNotifier {
   ViewState _state = ViewState.idle;
@@ -43,7 +43,7 @@ class BaseProvider<T> extends ChangeNotifier {
     dataList.clear();
   }
 
-  Future loadBaseData({required Future Function() loadBody}) async {
+  Future<T?> loadBaseData({required Future<T> Function() loadBody}) async {
     try {
       setState(ViewState.busy);
       await loadBody();
@@ -53,5 +53,6 @@ class BaseProvider<T> extends ChangeNotifier {
       debugPrint(err.toString());
       rethrow;
     }
+    return null;
   }
 }

@@ -1,10 +1,10 @@
-import 'package:app_jtak_delivery/src/core/controllers/app/app_state_manager.dart';
-import 'package:app_jtak_delivery/src/core/controllers/app_parameters_provider.dart';
-import 'package:app_jtak_delivery/src/core/models/notifications_payload_model.dart';
-import 'package:app_jtak_delivery/src/core/services/authentication_service.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/core/services/notification_routes_service.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/core/controllers/app/app_state_manager.dart';
+import 'package:app_cet/src/core/controllers/app_parameters_provider.dart';
+import 'package:app_cet/src/core/models/notifications_payload_model.dart';
+import 'package:app_cet/src/core/services/authentication_service.dart';
+import 'package:app_cet/src/core/services/locator.dart';
+import 'package:app_cet/src/core/services/notification_routes_service.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class FireBaseNotificationServices {
 
   static Future basicInitialize() async {
     await Firebase.initializeApp();
-    // FirebaseMessaging.onBackgroundMessage(_messageHandler);
+    FirebaseMessaging.onBackgroundMessage(_messageHandler);
   }
 
   void initialize(BuildContext context) {
@@ -28,7 +28,8 @@ class FireBaseNotificationServices {
 
   void _registerListener() async {
     _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
-      GlobalVar.log("🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 firebase Messaging InitialMessage");
+      GlobalVar.log(
+          "🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 firebase Messaging InitialMessage");
       if (message != null) {
         GlobalVar.log(message.notification?.title ?? '');
       }
@@ -36,16 +37,22 @@ class FireBaseNotificationServices {
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // app is in foregrounde
-      GlobalVar.log("🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 Firebase Messaging recieved");
-      locator<AppParametersProvider>().localNotificationService.showNotifications(getPayloadModel(message.data));
+      GlobalVar.log(
+          "🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 Firebase Messaging recieved");
+      locator<AppParametersProvider>()
+          .localNotificationService
+          .showNotifications(getPayloadModel(message.data));
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       // app is in background or killed and user tap on default notification
       GlobalVar.log(' 🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 notification clicked!');
-      if (context == null) throw Exception('context not added to notification service');
-      NotificationRoutesService notificationRoutesService = NotificationRoutesService(context!);
-      notificationRoutesService.parseNotificationUrl(getPayloadModel(message.data));
+      if (context == null)
+        throw Exception('context not added to notification service');
+      NotificationRoutesService notificationRoutesService =
+          NotificationRoutesService(context!);
+      notificationRoutesService
+          .parseNotificationUrl(getPayloadModel(message.data));
     });
   }
 
@@ -76,12 +83,17 @@ class FireBaseNotificationServices {
   }
 
   void _getToken() async {
-    String? token = await _firebaseMessaging.getToken();
-    assert(token != null);
+    String? token = null;
+    try {
+      token = await _firebaseMessaging.getToken();
+    } catch (e) {}
+    if(token != null);
     {
-      GlobalVar.log('******************************************* firebase token : $token');
+      GlobalVar.log(
+          '******************************************* firebase token : $token');
       AuthenticationService authService = locator<AuthenticationService>();
-      if (authService.user != null && GlobalVar.checkString(authService.user!.userTopicId)) {
+      if (authService.user != null &&
+          GlobalVar.checkString(authService.user!.userTopicId)) {
         subscribeToTopic(authService.user!.userTopicId);
       }
     }
@@ -105,8 +117,8 @@ class FireBaseNotificationServices {
   }
 }
 
-// Future<void> _messageHandler(RemoteMessage message) async {
-  // to handle firebase notification message when the app in background
-//   GlobalVar.log('🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 background firebase messageHandler title ${message.notification!.title}');
-//   GlobalVar.log('🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 background firebase messageHandler body ${message.notification!.body}');
-// }
+ Future<void> _messageHandler(RemoteMessage message) async {
+ //to handle firebase notification message when the app in background
+   GlobalVar.log('🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 background firebase messageHandler title ${message.notification!.title}');
+   GlobalVar.log('🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔🔔 background firebase messageHandler body ${message.notification!.body}');
+ }

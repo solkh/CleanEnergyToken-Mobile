@@ -14,7 +14,7 @@ class AppStateManager extends ChangeNotifier {
       if (appThemeType == ThemeType.dark) setAppTheme(appThemeType);
     }
     if (prefs.containsKey(langKey)) {
-      _appLanguage = prefs.getString(langKey) ?? 'ar';
+      _appLanguage = prefs.getString(langKey) ?? 'en';
     }
     if (prefs.containsKey(appFirsLunchKey)) {
       _initialized = prefs.getBool(appFirsLunchKey) ?? false;
@@ -31,16 +31,13 @@ class AppStateManager extends ChangeNotifier {
   }
 
   // app Language
-  String _appLanguage = 'ar';
+  String _appLanguage = 'en';
   String get appLanguage => _appLanguage;
-  bool get appLanguageIsArabic => _appLanguage == 'ar';
   Future setAppLanguage(String lang) async {
     _appLanguage = lang;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(langKey, lang);
   }
-
-  String getOppositeLanguage() => appLanguage == 'ar' ? 'en' : 'ar';
 
   // app Theme Type
   ThemeType _appThemeType = ThemeType.light;

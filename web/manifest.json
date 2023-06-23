@@ -1,6 +1,6 @@
 {
-    "name": "app_jtak_delivery",
-    "short_name": "app_jtak_delivery",
+    "name": "app_cet",
+    "short_name": "app_cet",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

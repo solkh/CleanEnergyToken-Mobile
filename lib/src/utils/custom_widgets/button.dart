@@ -31,8 +31,7 @@ class ButtonWidget extends StatelessWidget {
         child: Text(text, style: textStyle),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          padding: padding,
-          primary: color,
+          padding: padding, backgroundColor: color,
         ),
       ),
     );

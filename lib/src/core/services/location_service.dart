@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:app_jtak_delivery/src/core/models/lat_lng_model.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/core/models/lat_lng_model.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:geolocator/geolocator.dart';
 
 class LocationService {

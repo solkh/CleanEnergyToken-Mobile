@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_jtak_delivery/src/core/enums/dynamic_field_control_type.dart';
+import 'package:app_cet/src/core/enums/dynamic_field_control_type.dart';
 
 class DynamicFieldValuesModel {
   String? displayName;

@@ -1,10 +1,10 @@
-import 'package:app_jtak_delivery/src/core/services/authentication_service.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/ui/pages/account/login_page.dart';
+import 'package:app_cet/src/core/services/authentication_service.dart';
+import 'package:app_cet/src/core/services/locator.dart';
+import 'package:app_cet/src/ui/pages/account/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app_jtak_delivery/src/core/controllers/user_provider.dart';
-import 'package:app_jtak_delivery/src/utils/custom_widgets/phone_widget.dart';
-import 'package:app_jtak_delivery/src/utils/custom_widgets/widgets.dart';
+import 'package:app_cet/src/core/controllers/user_provider.dart';
+import 'package:app_cet/src/utils/custom_widgets/phone_widget.dart';
+import 'package:app_cet/src/utils/custom_widgets/widgets.dart';
 import '../../../config/themes/app_theme.dart';
 import '../../../config/themes/colors.dart';
 import '../../../utils/custom_widgets/base_view.dart';
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   ListTile _logoutWidget(Color iconColor, BuildContext context) {
-    bool isLogin = locator<AuthenticationService>().isLogin();
+    bool isLogin = locator<AuthenticationService>().isLoggedIn();
     String title = isLogin ? str.formAndAction.logout : str.formAndAction.logIn;
     return ListTile(
       leading: Icon(Icons.reviews, color: iconColor),

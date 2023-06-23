@@ -1,9 +1,9 @@
-import 'package:app_jtak_delivery/src/config/constants/app_constant.dart';
-import 'package:app_jtak_delivery/src/core/controllers/app/base_provider.dart';
-import 'package:app_jtak_delivery/src/core/models/phone_number_model.dart';
-import 'package:app_jtak_delivery/src/utils/providers/sol_api.dart';
+import 'package:app_cet/src/core/controllers/app/base_provider.dart';
+import 'package:app_cet/src/core/models/phone_number_model.dart';
+import 'package:app_cet/src/utils/providers/sol_api.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 
+import '../models/user_model.dart';
 import '../services/authentication_service.dart';
 import '../services/locator.dart';
 
@@ -20,11 +20,6 @@ class UserProvider extends BaseProvider {
     }
     fullName = authService.user?.fullName;
     email = authService.user?.email;
-    phoneNumber = PhoneNumberModel(
-      isoCode: authService.user?.countryPhoneCode ?? kCountriesCode[kCountryPhoneCodeDefualt],
-      dialCode: authService.user?.countryPhoneCode ?? kCountryPhoneCodeDefualt,
-      phoneNumber: authService.user?.phoneNumber,
-    );
   }
 
   Future<void> loadUserData() async {
@@ -39,6 +34,21 @@ class UserProvider extends BaseProvider {
     await loadBaseData(
       loadBody: () async {
         await authService.loginByPhone(phoneNumber, code);
+      },
+    );
+  }
+
+  Future<UserModel?> loginByMnemonic(String mnemonic) async {
+    return await loadBaseData(
+      loadBody: () async {
+        await authService.loginByMnemonic(mnemonic);
+      },
+    );
+  }
+  Future<UserModel?> loginOrRegisterByMnemonic(String mnemonic, String username) async {
+    return await loadBaseData(
+      loadBody: () async {
+        await authService.loginOrRegisterByMnemonic(mnemonic, username);
       },
     );
   }
@@ -75,15 +85,11 @@ class UserProvider extends BaseProvider {
       loadBody: () async {
         Map body = {
           "fullName": fullName,
-          "email": email,
-          "phoneNumber": phoneNumber.toString(),
-          "countryPhoneCode": phoneNumber!.dialCode,
+          "email": email
         };
         await _api.postRequest('/Account/UpdateUser', body, apiPrefex: apiPrefex);
         authService.user?.fullName = fullName;
         authService.user?.email = email;
-        authService.user?.phoneNumber = phoneNumber!.phoneNumber!;
-        authService.user?.countryPhoneCode = phoneNumber!.dialCode;
       },
     );
   }

@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:app_jtak_delivery/src/config/constants/app_constant.dart';
-import 'package:app_jtak_delivery/src/config/themes/app_theme.dart';
-import 'package:app_jtak_delivery/src/config/themes/theme.dart';
-import 'package:app_jtak_delivery/src/core/controllers/app/app_state_manager.dart';
-import 'package:app_jtak_delivery/src/core/models/phone_number_model.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/utils/utilities/global_var.dart';
+import 'package:app_cet/src/config/constants/app_constant.dart';
+import 'package:app_cet/src/config/themes/app_theme.dart';
+import 'package:app_cet/src/config/themes/theme.dart';
+import 'package:app_cet/src/core/controllers/app/app_state_manager.dart';
+import 'package:app_cet/src/core/models/phone_number_model.dart';
+import 'package:app_cet/src/core/services/locator.dart';
+import 'package:app_cet/src/utils/utilities/global_var.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 

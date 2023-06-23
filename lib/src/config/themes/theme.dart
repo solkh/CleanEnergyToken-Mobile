@@ -37,33 +37,17 @@ const numberStyle = TextStyle(fontSize: 15.0, color: Colors.black, fontFamily: '
 const linkStyle = TextStyle(fontSize: 15.0, color: Colors.blue, decoration: TextDecoration.lineThrough);
 
 final darkTheme = ThemeData(
-  primarySwatch: Colors.grey,
   primaryColor: Colors.black,
   primaryColorLight: Colors.black87,
   brightness: Brightness.dark,
-  backgroundColor: const Color(0xFF212121),
   dividerColor: Colors.black12,
-  textTheme: textThemeDefault,
+  textTheme: textThemeDefault, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(background: const Color(0xFF212121)),
 );
 
 final lightTheme = ThemeData(
   primaryColor: kPrimaryColor,
-  colorScheme: const ColorScheme(
-    primary: kPrimaryColor,
-    secondary: kAccentColor,
-    surface: kCardBackground,
-    background: Colors.red,
-    error: Colors.amber,
-    onPrimary: Colors.white,
-    onSecondary: Colors.pink,
-    onSurface: Colors.black,
-    onBackground: Colors.green,
-    onError: Colors.blueGrey,
-    brightness: Brightness.light,
-  ),
 
   brightness: Brightness.light,
-  backgroundColor: kGreyBackground,
   scaffoldBackgroundColor: kPageBackground,
   textTheme: GoogleFonts.tajawalTextTheme(textThemeDefault), // same in appTheme.fontFamily
 
@@ -75,7 +59,7 @@ final lightTheme = ThemeData(
   ////////////////{ Buttons Theme } ////////////////
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      primary: kAccentColor,
+      backgroundColor: kAccentColor,
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
       textStyle: GoogleFonts.tajawal(fontWeight: FontWeight.bold, fontSize: 16),
 
@@ -83,8 +67,8 @@ final lightTheme = ThemeData(
     ),
   ),
 
-  outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(primary: kAccentColor)),
-  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(primary: kAccentColor)),
+  outlinedButtonTheme: OutlinedButtonThemeData(style: OutlinedButton.styleFrom(foregroundColor: kAccentColor)),
+  textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: kAccentColor)),
 
   ////////////////{ Card Theme } ////////////////
   cardTheme: CardTheme(
@@ -94,7 +78,19 @@ final lightTheme = ThemeData(
     elevation: 2,
     color: kCardBackground,
     clipBehavior: Clip.antiAlias,
-  ),
+  ), colorScheme: const ColorScheme(
+    primary: kPrimaryColor,
+    secondary: kAccentColor,
+    surface: kCardBackground,
+    background: Colors.red,
+    error: Colors.amber,
+    onPrimary: Colors.white,
+    onSecondary: Colors.pink,
+    onSurface: Colors.black,
+    onBackground: Colors.green,
+    onError: Colors.blueGrey,
+    brightness: Brightness.light,
+  ).copyWith(background: kGreyBackground),
 );
 ////////////////{ Orginal } ////////////////
 //  final lightTheme = ThemeData(

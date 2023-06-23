@@ -1,8 +1,8 @@
-import 'package:app_jtak_delivery/src/config/constants/constants.dart';
-import 'package:app_jtak_delivery/src/core/controllers/app_parameters_provider.dart';
-import 'package:app_jtak_delivery/src/core/services/locator.dart';
-import 'package:app_jtak_delivery/src/ui/pages/order/orders_page.dart';
-import 'package:app_jtak_delivery/src/ui/sections/drawer.dart';
+import 'package:app_cet/src/config/constants/constants.dart';
+import 'package:app_cet/src/core/controllers/app_parameters_provider.dart';
+import 'package:app_cet/src/core/services/locator.dart';
+import 'package:app_cet/src/ui/pages/home_page.dart';
+import 'package:app_cet/src/ui/sections/drawer.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -13,8 +13,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Widget homeBody = OrdersPage();
-  String PageTitle = 'صفحة الطلبات';
+  Widget homeBody = HomePage();
+  String PageTitle = 'CET App';
 
   void drawerHandler(Widget page, String title) {
     setState(() {
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: () {
         if (PageTitle != 'صفحة الطلبات') {
-          setState(() => homeBody = OrdersPage());
+          setState(() => homeBody = HomePage());
           return Future.value(false);
         }
         return Future.value(true);
@@ -50,12 +50,12 @@ class _MainPageState extends State<MainPage> {
   AppBar _appBar() {
     return AppBar(
       titleSpacing: 0,
-      title: Text(PageTitle, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      title: Text(PageTitle, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Image.asset(kLogo2),
+          child: Image.asset(kLogo),
         ),
         const SizedBox(width: 8),
       ],

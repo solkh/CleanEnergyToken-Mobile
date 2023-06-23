@@ -1,11 +1,6 @@
-import 'dart:developer';
-
-import 'package:app_jtak_delivery/src/core/services/app_global_initializer.dart';
-import 'package:app_jtak_delivery/src/core/services/authentication_service.dart';
-import 'package:app_jtak_delivery/src/ui/pages/account/login_page.dart';
+import 'package:app_cet/src/core/services/app_global_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../main_imports.dart';
 import 'locale_delegate.dart';
 import 'src/config/constants/constants.dart';
@@ -32,7 +27,6 @@ class AppRootWidget extends StatelessWidget {
   const AppRootWidget({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    log('**************************************** AppRootWidget.build');
     AppStateManager appStateManager = Provider.of<AppStateManager>(context);
 
     return MaterialApp(
@@ -58,10 +52,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     str = context.str!;
-    if (Provider.of<AuthenticationService>(context, listen: false).isLogin()) {
-      return const SplashPage();
-    }
-    return const LoginPage();
-    // return GlobalVar.appFirstLunch ? ChangeNotifierProvider(create: (context) => SetupWizardNotifier(), child: SetupWizardPage()) : SplashPage();
+    return const SplashPage();
+    //if (Provider.of<AuthenticationService>(context, listen: false).isLogin()) {
+    //  return const SplashPage();
+    //}
+    //return const LoginPage();
   }
 }
