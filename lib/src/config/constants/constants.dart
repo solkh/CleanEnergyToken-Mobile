@@ -1,4 +1,4 @@
-const String kAppName = 'جيتك-سائق';
+const String kAppName = 'SMARGE';
 
 const String kCurrencyTurkey = " ₺ ";
 
