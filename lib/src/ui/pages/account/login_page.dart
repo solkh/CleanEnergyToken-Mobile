@@ -14,7 +14,10 @@ class _LoginPageState extends State<LoginPage> {
   late UserProvider userProvider;
   late List<Widget> res;
   late List<TextEditingController> ctrls;
-
+  //User
+  List<String> test = ['love', 'casual', 'winner' ,'unlock' ,'tackle' ,'talent', 'symbol' ,'mountain', 'time', 'depart' ,'fix', 'girl'];
+  //PowerStationWorker + Owner
+  //List<String> test = ['tragic', 'parade', 'crisp', 'rescue', 'that', 'media', 'like', 'want', 'jealous', 'pig', 'silver', 'amateur'];
   @override
   void initState() {
     userProvider = UserProvider();
@@ -28,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
     ctrls = new List.empty(growable: true);
     for (int i = 0; i < 12; i++) {
       var ctrl = TextEditingController();
+      ctrl.text = test[i];
       ctrls.add(ctrl);
-      //const label = 'Word' + (i+1).toString();
       res.add(Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -75,15 +78,18 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
                     onPressed: () {
-                      // TODO: Sign-in
                       var mnemonic = '';
                       for (int i = 0; i < ctrls.length; i++) {
                         if (i > 0) mnemonic += ' ';
                         mnemonic += ctrls[i].text.trim();
                       }
-                      userProvider.loginByMnemonic(mnemonic).then((value) => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage())));
-                      
+                      userProvider
+                          .loginByMnemonic(mnemonic)
+                          .then((value) => Navigator.pop(context))
+                          .then((value) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage())));
                     },
                     child: const Text('Sign-in'))),
           )

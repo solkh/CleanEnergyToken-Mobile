@@ -4,14 +4,14 @@ class HomeModel {
   double? maxIncentive;
   double? incentive;
   double? balance;
-  String? user;
+  bool? isPowerStationWorker;
   String? walletAddress;
 
   HomeModel({
     this.maxIncentive,
     this.incentive,
     this.balance,
-    this.user,
+    this.isPowerStationWorker,
     this.walletAddress
   });
 
@@ -19,14 +19,14 @@ class HomeModel {
     double? maxIncentive,
     double? incentive,
     double? balance,
-    String? user,
+    bool? user,
     String? walletAddress
   }) {
     return HomeModel(
       maxIncentive: maxIncentive ?? this.maxIncentive,
       incentive: incentive ?? this.incentive,
       balance: balance ?? this.balance,
-      user: user ?? this.user,
+      isPowerStationWorker: user ?? this.isPowerStationWorker,
       walletAddress: walletAddress ?? this.walletAddress
     );
   }
@@ -36,7 +36,7 @@ class HomeModel {
       'maxIncentive': maxIncentive,
       'incentive': incentive,
       'balance': balance,
-      'user': user,
+      'isPowerStationWorker': isPowerStationWorker,
       'walletAddress': walletAddress
     };
   }
@@ -46,7 +46,7 @@ class HomeModel {
       maxIncentive: map['maxIncentive']?.toDouble(),
       incentive: map['incentive']?.toDouble(),
       balance: map['balance']?.toDouble(),
-      user: map['user'],
+      isPowerStationWorker: map['isPowerStationWorker'],
       walletAddress: map['walletAddress']
     );
   }
@@ -57,7 +57,7 @@ class HomeModel {
 
   @override
   String toString() {
-    return 'HomeModel(maxIncentive: $maxIncentive, incentive: $incentive, balance: $balance, user: $user, walletAddress: $walletAddress)';
+    return 'HomeModel(maxIncentive: $maxIncentive, incentive: $incentive, balance: $balance, isPowerStationWorker: $isPowerStationWorker, walletAddress: $walletAddress)';
   }
 
   @override
@@ -68,12 +68,12 @@ class HomeModel {
         other.maxIncentive == maxIncentive &&
         other.incentive == incentive &&
         other.balance == balance &&
-        other.user == user &&
+        other.isPowerStationWorker == isPowerStationWorker &&
         other.walletAddress == walletAddress;
   }
 
   @override
   int get hashCode {
-    return maxIncentive.hashCode ^ incentive.hashCode ^ balance.hashCode ^ user.hashCode ^ walletAddress.hashCode;
+    return maxIncentive.hashCode ^ incentive.hashCode ^ balance.hashCode ^ isPowerStationWorker.hashCode ^ walletAddress.hashCode;
   }
 }

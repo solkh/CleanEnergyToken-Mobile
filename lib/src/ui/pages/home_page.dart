@@ -1,4 +1,3 @@
-
 import 'package:app_cet/src/core/controllers/cet_data_provider.dart';
 import 'package:app_cet/src/core/services/authentication_service.dart';
 import 'package:app_cet/src/ui/pages/account/login_page.dart';
@@ -32,7 +31,8 @@ class _HomePageState extends State<HomePage> {
   void loadinitData() async {
     provider = Provider.of<CetDataProvider>(context, listen: false);
     provider.load().then((d) => setState(() => this.data = d));
-    setState(() => this.isLogedIn = locator<AuthenticationService>().isLoggedIn());
+    setState(
+        () => this.isLogedIn = locator<AuthenticationService>().isLoggedIn());
   }
 
   @override
@@ -56,8 +56,6 @@ class _HomePageState extends State<HomePage> {
               child: isLogedIn
                   ? Column(
                       children: [
-                        Text('Welcome ' + (data?.user ?? ''),
-                            style: context.textTheme.headlineMedium),
                         Text(
                             'Current incentive: ' +
                                 ((data?.incentive ?? 0) * 100)
@@ -67,25 +65,26 @@ class _HomePageState extends State<HomePage> {
                         Text(
                             'Your balance: ' +
                                 (data?.balance ?? 0).toString() +
-                                ' CET',
+                                ' SMRG',
                             style: context.textTheme.headlineMedium),
-                        QrImageView(
-                          data: data?.walletAddress ?? '',
-                          version: QrVersions.auto,
-                          size: 300.0,
-                        ),
-                        TextFormField(
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            labelText: 'Charged Amount',
-                          ),
-                          controller: TextEditingController(),
-                          onChanged: (value) {},
-                          //onTap: () => param1Controller.selection = TextSelection(
-                          //    baseOffset: 0,
-                          //    extentOffset: param1Controller.value.text.length)
-                        ),
-                        ElevatedButton.icon(
+                        data?.walletAddress != null
+                            ? QrImageView(
+                                data: data?.walletAddress ?? '',
+                                version: QrVersions.auto,
+                                size: 220.0,
+                              )
+                            : Text(data?.walletAddress ?? '',
+                                style: context.textTheme.headlineSmall),
+                        data?.isPowerStationWorker == true? TextFormField(
+                            decoration: const InputDecoration(
+                              border: UnderlineInputBorder(),
+                              labelText: 'Charged Amount',
+                            ),
+                            controller: TextEditingController(),
+                            onChanged: (value) {}):
+                        Text(data?.walletAddress ?? '',
+                            style: context.textTheme.headlineSmall),
+                        data?.isPowerStationWorker == true?ElevatedButton.icon(
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -94,7 +93,8 @@ class _HomePageState extends State<HomePage> {
                           },
                           icon: Icon(Icons.login),
                           label: Text('Scan'),
-                        ),
+                        ):
+                        Text(''),
                       ],
                     )
                   : Row(

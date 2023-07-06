@@ -20,6 +20,11 @@ class CetDataProvider extends BaseProvider<HomeModel> {
     return (res as List).map((item) => item as String).toList();
   }
 
+
+  Future<dynamic> sendIncentives(String toaddress, int totalWattCharged) async {
+    return await _api.postRequest('/Incentives/Send/'+toaddress+'/'+totalWattCharged.toString()+'',{});
+  }
+
   Future loadIncentive() async {
     var res = await _api.getRequest('/Incentives');
     return res as int;
